@@ -1,0 +1,28 @@
+﻿<Window x:Class="EventManagementApp.AdministratorzyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Zarządzanie Administratorami" Height="400" Width="600"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ListView x:Name="AdministratorzyListView" Grid.Row="0" Margin="0,0,0,10" SelectionMode="Single">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}" Width="50"/>
+                    <GridViewColumn Header="Imię i Nazwisko" DisplayMemberBinding="{Binding ImieNazwisko}" Width="150"/>
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="200"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Dodaj Administratora" Width="150" Click="DodajButton_Click"/>
+            <Button Content="Usuń Administratora" Width="150" Click="UsunButton_Click"/>
+            <Button Content="Zamknij" Width="100" Click="ZamknijButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

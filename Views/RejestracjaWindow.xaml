@@ -1,0 +1,30 @@
+﻿<Window x:Class="EventManagementApp.RejestracjaWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Rejestracja" Height="350" Width="400"
+        ResizeMode="NoResize" WindowState="Normal">
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="Imię i Nazwisko" Margin="0,10,0,5" />
+            <Grid Margin="10,0,0,10">
+                <TextBox x:Name="ImieNazwiskoTextBox" Height="25" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                <TextBlock x:Name="ImieNazwiskoWatermark"  Text="Wpisz imię i nazwisko" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="Gray" IsHitTestVisible="False" />
+            </Grid>
+
+            <TextBlock Text="Email" Margin="0,10,0,5" />
+            <Grid Margin="10,0,0,10">
+                <TextBox x:Name="EmailTextBox" Height="25" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                <TextBlock x:Name="EmailWatermark" Text="Wpisz email" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="Gray" IsHitTestVisible="False" />
+            </Grid>
+
+            <TextBlock Text="Hasło" Margin="0,10,0,5" />
+            <Grid Margin="10,0,0,10">
+                <PasswordBox x:Name="HasloBox" Height="25" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                <TextBlock x:Name="HasloWatermark" Text="Wpisz hasło" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="Gray" IsHitTestVisible="False" />
+            </Grid>
+
+            <Button Content="Zarejestruj" Click="Rejestracja_Click" Height="30" Margin="10" />
+            <Button Content="Powrót" Height="20" x:Name="PowrotButton" Click="PowrotButton_Click" Margin="10,10,10,100" VerticalAlignment="Bottom" />
+        </StackPanel>
+    </Grid>
+</Window>

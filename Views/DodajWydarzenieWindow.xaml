@@ -1,0 +1,53 @@
+﻿<Window x:Class="EventManagementApp.DodajWydarzenieWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Dodaj Wydarzenie" Height="700" Width="400"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="Nazwa Firmy" Margin="10,10,0,0" />
+            <Grid Margin="10,0,0,10">
+                <TextBox x:Name="NazwaFirmyTextBox" Margin="0" Height="25" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                <TextBlock x:Name="NazwaFirmyWatermark" Text="Wpisz nazwę firmy" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="Gray" IsHitTestVisible="False" />
+            </Grid>
+
+            <TextBlock Text="Kontakt" Margin="10,10,0,0" />
+            <Grid Margin="10,0,0,10">
+                <TextBox x:Name="KontaktTextBox" Margin="0" Height="25" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                <TextBlock x:Name="KontaktWatermark" Text="Wpisz kontakt" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="Gray" IsHitTestVisible="False" />
+            </Grid>
+
+            <TextBlock Text="Nazwa Wydarzenia" Margin="10,10,0,0" />
+            <Grid Margin="10,0,0,10">
+                <TextBox x:Name="NazwaWydarzeniaTextBox" Margin="0" Height="25" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                <TextBlock x:Name="NazwaWydarzeniaWatermark" Text="Wpisz nazwę wydarzenia" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="Gray" IsHitTestVisible="False" />
+            </Grid>
+
+            <TextBlock Text="Data" Margin="10,10,0,0" />
+            <DatePicker x:Name="DataPicker" Margin="10,0,0,10" />
+
+            <TextBlock Text="Godzina" Margin="10,10,0,0" />
+            <Grid Margin="10,0,0,10">
+                <TextBox x:Name="GodzinaTextBox" Margin="0" Height="25" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                <TextBlock x:Name="GodzinaWatermark" Text="hh:mm" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="Gray" IsHitTestVisible="False" />
+            </Grid>
+
+            <TextBlock Text="Lokalizacja" Margin="10,10,0,0" />
+            <ComboBox x:Name="LokalizacjaComboBox" Margin="10,0,0,10" Height="25" />
+
+            <TextBlock Text="Liczba Miejsc" Margin="10,10,0,0" />
+            <Grid Margin="10,0,0,10">
+                <TextBox x:Name="LiczbaMiejscTextBox" Margin="0" Height="25" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                <TextBlock x:Name="LiczbaMiejscWatermark" Text="Podaj liczbę miejsc" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="Gray" IsHitTestVisible="False" />
+            </Grid>
+
+            <TextBlock Text="Kategorie" Margin="10,10,0,0" />
+            <ListBox x:Name="KategorieListBox" Margin="10,0,0,10" SelectionMode="Multiple" Height="100" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                <Button Content="Dodaj" Click="DodajWydarzenie_Click" Width="100" Margin="10" />
+                <Button Content="Anuluj" Click="Anuluj_Click" Width="100" Margin="10" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,25 @@
+﻿<Window x:Class="EventManagementApp.AdminLoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Logowanie Admin" Height="350" Width="400"
+        ResizeMode="NoResize" WindowState="Normal">
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="Email" Margin="10,10,0,0" />
+            <Grid Margin="10,0,0,10">
+                <TextBox x:Name="EmailTextBox" Margin="0" Height="25" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                <TextBlock x:Name="EmailWatermark" Text="Wpisz email" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="Gray" IsHitTestVisible="False" />
+            </Grid>
+
+            <TextBlock Text="Hasło" Margin="10,10,0,0" />
+
+            <Grid Margin="10,0,0,10">
+                <PasswordBox x:Name="HasloBox" Margin="0" Height="25" VerticalAlignment="Center" VerticalContentAlignment="Center" />
+                <TextBlock x:Name="HasloWatermark" Text="Wpisz hasło" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0,0,0" Foreground="Gray" IsHitTestVisible="False" />
+            </Grid>
+
+            <Button Content="Zaloguj" x:Name="ZalogujButton" Click="Logowanie_Click" Height="30" Margin="10" />
+            <Button Content="Powrót" x:Name="PowrotButton" Click="PowrotButton_Click" Height="20" Margin="10,80,10,10" VerticalAlignment="Bottom" />
+        </StackPanel>
+    </Grid>
+</Window>

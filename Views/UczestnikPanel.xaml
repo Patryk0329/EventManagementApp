@@ -1,0 +1,14 @@
+﻿<Window x:Class="EventManagementApp.UczestnikPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Panel Uczestnika" Height="450" Width="800">
+	<Grid>
+		<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
+			<Button Height="50" Content="Przegląd wydarzeń" x:Name="PrzegladButton" Margin="20" Click="Wydarzenia_Click"/>
+			<Button Height="50" Content="Logowanie" x:Name="LogowanieButton" Margin="20" Click="Logowanie_Click" />
+			<Button Height="50" Content="Rejestracja" x:Name="RejestracjaButton" Margin="20" Click="Rejestracja_Click"/>
+			<Button Height="50" Content="Powrót" x:Name="PowrotButton" Margin="20" Click="PowrotButton_Click"/>
+		</StackPanel>
+		<Label x:Name="KomunikatLabel" Content="Rezerwacji może dokonać tylko użytkownik zalogowany" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+	</Grid>
+</Window>

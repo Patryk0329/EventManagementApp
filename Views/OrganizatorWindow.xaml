@@ -1,0 +1,14 @@
+﻿<Window x:Class="EventManagementApp.OrganizatorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Panel Organizatora" Height="300" Width="400">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" >
+            <Button x:Name="DodajWydarzenieButton" Content="Dodaj Wydarzenie" Height="30" Width="200" Margin="0,10,0,10" Click="DodajWydarzenieButton_Click" />
+            <Button x:Name="RejestracjaOrganizatoraButton" Content="Rejestracja Organizatora"  Height="30" Width="200" Margin="0,10,0,10" Click="RejestracjaOrganizatoraButton_Click" />
+            <Button x:Name="PowrotButton" Content="Powrót"  Height="30" Width="200" Margin="0,10,0,10" Click="PowrotButton_Click" />
+            <TextBlock Text="Wydarzenie może dodać jedynie wcześniej zarejestrowany organizator." 
+                       TextAlignment="Center" Margin="10,20,10,0" Foreground="Red" />
+        </StackPanel>
+    </Grid>
+</Window>

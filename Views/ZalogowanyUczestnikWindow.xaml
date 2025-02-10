@@ -1,0 +1,12 @@
+﻿<Window x:Class="EventManagementApp.ZalogowanyUczestnikWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Panel Uczestnika Zalogowanego" Height="450" Width="800">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
+            <Button Height="50" Content="Przegląd wydarzeń" x:Name="PrzegladButton" Margin="20" Click="Wydarzenia_Click"/>
+            <Button Height="50" Content="Rezerwacja" x:Name="LogowanieButton" Margin="20" Click="Rezerwacja_Click" />
+            <Button Height="50" Content="Raporty" x:Name="RaportyButton" Margin="20" Click="Raporty_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

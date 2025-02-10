@@ -1,0 +1,16 @@
+﻿<Window x:Class="EventManagementApp.RaportyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Raporty" Height="500" Width="800">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Wybierz raport:" FontSize="16" FontWeight="Bold" Margin="10" />
+            <ComboBox x:Name="RaportyComboBox" SelectionChanged="RaportyComboBox_SelectionChanged" Margin="10">
+                <ComboBoxItem Content="Wydarzenia z dokonaną rezerwacją przez użytkownika" />
+                <ComboBoxItem Content="Wydarzenia z największą liczbą uczestników" />
+                <ComboBoxItem Content="Wydarzenia z wolnymi miejscami" />
+            </ComboBox>
+            <DataGrid x:Name="RaportyDataGrid" AutoGenerateColumns="True" Margin="10" Height="400" />
+        </StackPanel>
+    </Grid>
+</Window>
