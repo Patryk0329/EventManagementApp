@@ -86,9 +86,13 @@ namespace EventManagementApp.DataAccess
                     }
                 }
             }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas pobierania wydarzeń z bazy danych: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (Exception ex)
             {
-                Console.WriteLine($"Błąd podczas pobierania wydarzeń: {ex.Message}");
+                MessageBox.Show($"Nieoczekiwany błąd podczas pobierania wydarzeń: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return wydarzenia;
@@ -189,9 +193,14 @@ namespace EventManagementApp.DataAccess
 
                 return true;
             }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas rejestracji uczestnika: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
             catch (Exception ex)
             {
-                Console.WriteLine($"Błąd podczas rejestracji uczestnika: {ex.Message}");
+                MessageBox.Show($"Nieoczekiwany błąd podczas rejestracji uczestnika: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
         }
@@ -241,9 +250,14 @@ namespace EventManagementApp.DataAccess
                     }
                 }
             }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas pobierania ID uczestnika: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                return -1;
+            }
             catch (Exception ex)
             {
-                Console.WriteLine($"Błąd podczas pobierania ID uczestnika: {ex.Message}");
+                MessageBox.Show($"Nieoczekiwany błąd podczas pobierania ID uczestnika: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 return -1;
             }
         }
@@ -313,9 +327,13 @@ namespace EventManagementApp.DataAccess
                     }
                 }
             }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas logowania uczestnika: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (Exception ex)
             {
-                Console.WriteLine($"Błąd podczas logowania: {ex.Message}");
+                MessageBox.Show($"Nieoczekiwany błąd podczas logowania uczestnika: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return false;
@@ -394,9 +412,14 @@ namespace EventManagementApp.DataAccess
 
                 return true;
             }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas zapisywania rezerwacji: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
             catch (Exception ex)
             {
-                Console.WriteLine($"Błąd podczas zapisywania rezerwacji: {ex.Message}");
+                MessageBox.Show($"Nieoczekiwany błąd podczas zapisywania rezerwacji: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
         }
@@ -543,8 +566,14 @@ namespace EventManagementApp.DataAccess
                 }
                 return true;
             }
-            catch (Exception)
+            catch (NpgsqlException ex)
             {
+                MessageBox.Show($"Błąd podczas dodawania organizatora: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nieoczekiwany błąd podczas dodawania organizatora: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
         }
@@ -579,12 +608,18 @@ namespace EventManagementApp.DataAccess
                     }
                 }
             }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas sprawdzania danych firmy: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
             catch (Exception ex)
             {
-                Console.WriteLine($"Błąd podczas sprawdzania danych firmy: {ex.Message}");
+                MessageBox.Show($"Nieoczekiwany błąd podczas sprawdzania danych firmy: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
         }
+
 
 
         /// <summary>
@@ -697,10 +732,13 @@ namespace EventManagementApp.DataAccess
                     }
                 }
             }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas dodawania wydarzenia: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             catch (Exception ex)
             {
-                Console.WriteLine($"Błąd podczas dodawania wydarzenia: {ex.Message}");
-                MessageBox.Show($"Błąd podczas dodawania wydarzenia: {ex.Message}", "Błąd!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show($"Nieoczekiwany błąd podczas dodawania wydarzenia: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -711,23 +749,33 @@ namespace EventManagementApp.DataAccess
         public List<Kategoria> GetKategorie()
             {
             List<Kategoria> kategorie = new List<Kategoria>();
-
-            using (var connection = new NpgsqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "SELECT ID, NazwaKategorii FROM Kategorie";
-                using (var cmd = new NpgsqlCommand(query, connection))
-                using (var reader = cmd.ExecuteReader())
+                using (var connection = new NpgsqlConnection(connectionString))
                 {
-                    while (reader.Read())
+                    connection.Open();
+                    string query = "SELECT ID, NazwaKategorii FROM Kategorie";
+                    using (var cmd = new NpgsqlCommand(query, connection))
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        kategorie.Add(new Kategoria
+                        while (reader.Read())
                         {
-                            ID = reader.GetInt32(0),
-                            Nazwa = reader.GetString(1)
-                        });
+                            kategorie.Add(new Kategoria
+                            {
+                                ID = reader.GetInt32(0),
+                                Nazwa = reader.GetString(1)
+                            });
+                        }
                     }
                 }
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas pobierania kategorii: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nieoczekiwany błąd podczas pobierania kategorii: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return kategorie;
@@ -739,15 +787,26 @@ namespace EventManagementApp.DataAccess
         /// <param name="id">ID kategorii do usunięcia.</param>
         public void UsunKategoria(int id)
         {
-            using (var connection = new NpgsqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "DELETE FROM Kategorie WHERE ID = @id";
-                using (var cmd = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.ExecuteNonQuery();
+                    connection.Open();
+                    string query = "DELETE FROM Kategorie WHERE ID = @id";
+                    using (var cmd = new NpgsqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas usuwania kategorii: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nieoczekiwany błąd podczas usuwania kategorii: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -757,15 +816,26 @@ namespace EventManagementApp.DataAccess
         /// <param name="nazwa">Nazwa nowej kategorii.</param>
         public void DodajKategoria(string nazwa)
         {
-            using (var connection = new NpgsqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "INSERT INTO Kategorie (NazwaKategorii) VALUES (@nazwa)";
-                using (var cmd = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@nazwa", nazwa);
-                    cmd.ExecuteNonQuery();
+                    connection.Open();
+                    string query = "INSERT INTO Kategorie (NazwaKategorii) VALUES (@nazwa)";
+                    using (var cmd = new NpgsqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@nazwa", nazwa);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas dodawania kategorii: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nieoczekiwany błąd podczas dodawania kategorii: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -776,18 +846,28 @@ namespace EventManagementApp.DataAccess
         /// <param name="nowaNazwa">Nowa nazwa kategorii.</param>
         public void EdytujKategoria(int id, string nowaNazwa)
         {
-            using (var connection = new NpgsqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "UPDATE Kategorie SET NazwaKategorii = @nazwa WHERE ID = @id";
-                using (var cmd = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@nazwa", nowaNazwa);
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.ExecuteNonQuery();
+                    connection.Open();
+                    string query = "UPDATE Kategorie SET NazwaKategorii = @nazwa WHERE ID = @id";
+                    using (var cmd = new NpgsqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@nazwa", nowaNazwa);
+                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
-
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas edytowania kategorii: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nieoczekiwany błąd podczas edytowania kategorii: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>
@@ -798,25 +878,36 @@ namespace EventManagementApp.DataAccess
         {
             List<Lokalizacja> lokalizacje = new List<Lokalizacja>();
 
-            using (var connection = new NpgsqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "SELECT ID, Nazwa, Adres, PojemnoscMaksymalna FROM Lokalizacje";
-
-                using (var cmd = new NpgsqlCommand(query, connection))
-                using (var reader = cmd.ExecuteReader())
+                using (var connection = new NpgsqlConnection(connectionString))
                 {
-                    while (reader.Read())
+                    connection.Open();
+                    string query = "SELECT ID, Nazwa, Adres, PojemnoscMaksymalna FROM Lokalizacje";
+
+                    using (var cmd = new NpgsqlCommand(query, connection))
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        lokalizacje.Add(new Lokalizacja
+                        while (reader.Read())
                         {
-                            ID = reader.GetInt32(0),
-                            Nazwa = reader.GetString(1),
-                            Adres = reader.GetString(2),
-                            PojemnoscMaksymalna = reader.GetInt32(3)
-                        });
+                            lokalizacje.Add(new Lokalizacja
+                            {
+                                ID = reader.GetInt32(0),
+                                Nazwa = reader.GetString(1),
+                                Adres = reader.GetString(2),
+                                PojemnoscMaksymalna = reader.GetInt32(3)
+                            });
+                        }
                     }
                 }
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas pobierania lokalizacji: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nieoczekiwany błąd podczas pobierania lokalizacji: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return lokalizacje;
@@ -830,17 +921,28 @@ namespace EventManagementApp.DataAccess
         /// <param name="pojemnoscMaksymalna">Maksymalna pojemność lokalizacji.</param>
         public void DodajLokalizacja(string nazwa, string adres, int pojemnoscMaksymalna)
         {
-            using (var connection = new NpgsqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "INSERT INTO Lokalizacje (Nazwa, Adres, PojemnoscMaksymalna) VALUES (@nazwa, @adres, @pojemnosc)";
-                using (var cmd = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@nazwa", nazwa);
-                    cmd.Parameters.AddWithValue("@adres", adres);
-                    cmd.Parameters.AddWithValue("@pojemnosc", pojemnoscMaksymalna);
-                    cmd.ExecuteNonQuery();
+                    connection.Open();
+                    string query = "INSERT INTO Lokalizacje (Nazwa, Adres, PojemnoscMaksymalna) VALUES (@nazwa, @adres, @pojemnosc)";
+                    using (var cmd = new NpgsqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@nazwa", nazwa);
+                        cmd.Parameters.AddWithValue("@adres", adres);
+                        cmd.Parameters.AddWithValue("@pojemnosc", pojemnoscMaksymalna);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas dodawania lokalizacji: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nieoczekiwany błąd podczas dodawania lokalizacji: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -855,18 +957,29 @@ namespace EventManagementApp.DataAccess
         /// <param name="nowaPojemnosc">Nowa maksymalna pojemność lokalizacji.</param>
         public void EdytujLokalizacja(int id, string nowaNazwa, string nowyAdres, int nowaPojemnosc)
         {
-            using (var connection = new NpgsqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "UPDATE Lokalizacje SET Nazwa = @nazwa, Adres = @adres, PojemnoscMaksymalna = @pojemnosc WHERE ID = @id";
-                using (var cmd = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@nazwa", nowaNazwa);
-                    cmd.Parameters.AddWithValue("@adres", nowyAdres);
-                    cmd.Parameters.AddWithValue("@pojemnosc", nowaPojemnosc);
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.ExecuteNonQuery();
+                    connection.Open();
+                    string query = "UPDATE Lokalizacje SET Nazwa = @nazwa, Adres = @adres, PojemnoscMaksymalna = @pojemnosc WHERE ID = @id";
+                    using (var cmd = new NpgsqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@nazwa", nowaNazwa);
+                        cmd.Parameters.AddWithValue("@adres", nowyAdres);
+                        cmd.Parameters.AddWithValue("@pojemnosc", nowaPojemnosc);
+                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas edytowania lokalizacji: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nieoczekiwany błąd podczas edytowania lokalizacji: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -876,15 +989,26 @@ namespace EventManagementApp.DataAccess
         /// <param name="id">ID lokalizacji do usunięcia.</param>
         public void UsunLokalizacja(int id)
         {
-            using (var connection = new NpgsqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "DELETE FROM Lokalizacje WHERE ID = @id";
-                using (var cmd = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.ExecuteNonQuery();
+                    connection.Open();
+                    string query = "DELETE FROM Lokalizacje WHERE ID = @id";
+                    using (var cmd = new NpgsqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas usuwania lokalizacji: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nieoczekiwany błąd podczas usuwania lokalizacji: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -894,26 +1018,37 @@ namespace EventManagementApp.DataAccess
         /// <returns>Lista obiektów reprezentujących administratorów.</returns>
         public List<Administrator> GetAdministratorzy()
         {
-            List<Administrator> administratorzy = new List<Administrator>();
+            var administratorzy = new List<Administrator>();
 
-            using (var connection = new NpgsqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "SELECT ID, ImieNazwisko, Email FROM Administratorzy";
-
-                using (var cmd = new NpgsqlCommand(query, connection))
-                using (var reader = cmd.ExecuteReader())
+                using (var connection = new NpgsqlConnection(connectionString))
                 {
-                    while (reader.Read())
+                    connection.Open();
+                    string query = "SELECT ID, ImieNazwisko, Email FROM Administratorzy";
+
+                    using (var cmd = new NpgsqlCommand(query, connection))
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        administratorzy.Add(new Administrator
+                        while (reader.Read())
                         {
-                            ID = reader.GetInt32(0),
-                            ImieNazwisko = reader.GetString(1),
-                            Email = reader.GetString(2)
-                        });
+                            administratorzy.Add(new Administrator
+                            {
+                                ID = reader.GetInt32(0),
+                                ImieNazwisko = reader.GetString(1),
+                                Email = reader.GetString(2)
+                            });
+                        }
                     }
                 }
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas pobierania administratorów: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nieoczekiwany błąd podczas pobierania administratorów: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             return administratorzy;
@@ -927,17 +1062,28 @@ namespace EventManagementApp.DataAccess
         /// <param name="haslo">Hasło administratora.</param>
         public void DodajAdministrator(string imieNazwisko, string email, string haslo)
         {
-            using (var connection = new NpgsqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "INSERT INTO Administratorzy (ImieNazwisko, Email, Haslo) VALUES (@imieNazwisko, @email, @haslo)";
-                using (var cmd = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@imieNazwisko", imieNazwisko);
-                    cmd.Parameters.AddWithValue("@email", email);
-                    cmd.Parameters.AddWithValue("@haslo", haslo);
-                    cmd.ExecuteNonQuery();
+                    connection.Open();
+                    string query = "INSERT INTO Administratorzy (ImieNazwisko, Email, Haslo) VALUES (@imieNazwisko, @email, @haslo)";
+                    using (var cmd = new NpgsqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@imieNazwisko", imieNazwisko);
+                        cmd.Parameters.AddWithValue("@email", email);
+                        cmd.Parameters.AddWithValue("@haslo", haslo);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas dodawania administratora: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nieoczekiwany błąd podczas dodawania administratora: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -947,20 +1093,28 @@ namespace EventManagementApp.DataAccess
         /// <param name="id">ID administratora do usunięcia.</param>
         public void UsunAdministrator(int id)
         {
-            using (var connection = new NpgsqlConnection(connectionString))
+            try
             {
-                connection.Open();
-                string query = "DELETE FROM Administratorzy WHERE ID = @id";
-                using (var cmd = new NpgsqlCommand(query, connection))
+                using (var connection = new NpgsqlConnection(connectionString))
                 {
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.ExecuteNonQuery();
+                    connection.Open();
+                    string query = "DELETE FROM Administratorzy WHERE ID = @id";
+                    using (var cmd = new NpgsqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@id", id);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show($"Błąd podczas usuwania administratora: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Nieoczekiwany błąd podczas usuwania administratora: {ex.Message}", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
-
-
     }
 }
-
 
